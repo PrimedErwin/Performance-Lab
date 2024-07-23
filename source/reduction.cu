@@ -193,6 +193,8 @@ __global__ void reduce_stage2(const float* d_idata, float* d_odata, int n)
         {
             smem[threadIdx.x] += smem[threadIdx.x + stride];
         }
+        __syncthreads();
+
     }
     // Copy result of reduction to global memory - Same as reduce_stage1
     if (threadIdx.x == 0)
@@ -232,6 +234,8 @@ __global__ void reduce_stage3(const float* d_idata, float* d_odata, int n)
         {
             smem[threadIdx.x] += smem[threadIdx.x + stride];
         }
+        __syncthreads();
+
     }
 
     //Copy result of reduction to global memory - Same as reduce_stage2
@@ -290,6 +294,8 @@ __global__ void reduce_stage4(const float* d_idata, float* d_odata, int n)
         {
             smem[threadIdx.x] += smem[threadIdx.x + stride];
         }
+        __syncthreads();
+
     }
 
     // Part 2 then uses the warpReduce function to reduce the 2 warps
@@ -345,6 +351,8 @@ __global__ void reduce_stage5(const float* d_idata, float* d_odata, int n)
         {
             smem[threadIdx.x] += smem[threadIdx.x + stride];
         }
+        __syncthreads();
+
     }
 
     // Part 2 is the same as reduce_stage4
